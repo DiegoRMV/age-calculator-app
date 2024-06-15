@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
+  <link rel="stylesheet" href="css/styles.css">
+
+  <title>Frontend Mentor | Age calculator app</title>
+
+</head>
+
+<body>
+  <main>
+    <div class="container">
+      <div class="container-inputs">
+        <div class="box">
+          <label for="day">DAY</label>
+          <input type="number" name="Day" id="day" min="1" max="31" placeholder="DD">
+          <span id="error-day"></span>
+        </div>
+        <div class="box">
+          <label for="month">MONTH</label>
+          <input type="number" name="Month" id="month" min="1" max="12" placeholder="MM">
+          <span id="error-month"></span>
+        </div>
+        <div class="box">
+          <label for="year">YEAR</label>
+          <input type="number" name="Year" id="year" min="1" max="9999" placeholder="YYYY">
+          <span id="error-year"></span>
+        </div>
+        <button class="btn-darkmode" type="button" data-theme-toggle aria-label="Change to light theme">Light
+          theme</button>
+      </div>
+      <div class="divider">
+        <div class="line"></div>
+        <span id="extream-error"></span>
+        <img id="btn" src="assets/images/icon-arrow.svg" alt="icono de flecha">
+      </div>
+      <div class="container-result">
+        <div>
+          <p><span id="years">- -</span> years</p>
+          <p><span id="months">- -</span> months</p>
+          <p><span id="days">- -</span> days</p>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <script src="js/script.js"></script>
+  <script src="js/dark-mode.js"></script>
+</body>
+
+</html>
