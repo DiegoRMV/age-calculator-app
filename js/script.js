@@ -173,9 +173,9 @@ inputDay.addEventListener("input", () => {
 btn.addEventListener("click", function () {
 	// Check if the input values are valid by calling the respective validation functions
 	// If any validation function returns false, exit the function and do not proceed further
-  validateDay(inputDay);
-  validateDay(inputMonth);
-  validateDay(inputYear);
+	validateDay(inputDay);
+	validateDay(inputMonth);
+	validateDay(inputYear);
 	const isValid =
 		validateDay(inputDay) &&
 		validateMonth(inputMonth) &&
@@ -250,6 +250,26 @@ btn.addEventListener("click", function () {
 			output.style.opacity = "1";
 		});
 	}, 300);
+
+	// let c = document.querySelector(".counter");
+	// function count() {
+	// 	var counter = { var: 0 };
+	// 	TweenMax.to(counter, 3, {
+	// 		var: 100,
+	// 		onUpdate: function () {
+	// 			var number = Math.ceil(counter.var);
+	// 			c.textContent = number;
+	// 			if (number === counter.var) {
+	// 				count.kill();
+	// 			}
+	// 		},
+	// 		onComplete: function () {
+	// 			count();
+	// 		},
+	// 		ease: Circ.easeOut,
+	// 	});
+	// }
+	// count();
 
 	// Clearing the input fields after calculating the age
 	// inputDay.value = "";
