@@ -299,6 +299,10 @@ main {
 		gap: 0.7rem;
 	}
 
+	.box span {
+		top: 4.7rem;
+	}
+
 	.divider {
 		margin-top: 1.5rem;
 	}

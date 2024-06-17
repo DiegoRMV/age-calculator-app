@@ -1,6 +1,4 @@
-// const form = document.querySelector(".form");
 const extreamError = document.getElementById("extream-error");
-
 const inputDay = document.getElementById("day");
 const inputMonth = document.getElementById("month");
 const inputYear = document.getElementById("year");
@@ -13,13 +11,15 @@ const outputDay = document.getElementById("days");
 const btn = document.getElementById("btn");
 const labels = document.querySelectorAll(".box label");
 
-////////////////////////////////
-//// Error rendering funtion
-// This function renders error messages based on the validation status of an input field.
+///////////////////////////////////////
+// Función de renderizado de errores //
+///////////////////////////////////////
+
+// Esta función muestra mensajes de error según el estado de validación de un campo de entrada.
 const renderError = function (status, element) {
-	const msgError = element.nextElementSibling; // The error message element next to the input element
-	const labelError = element.previousElementSibling; // The error label element previous to the input element
-	const fieldName = element.name; // The name of the input field
+	const msgError = element.nextElementSibling; // El elemento siguiente  al elemento de entrada
+	const labelError = element.previousElementSibling; // El elemento anterior al elemento de entrada
+	const fieldName = element.name; // El nombre del campo de entrada
 
 	switch (status) {
 		case "empty":
@@ -49,42 +49,42 @@ const renderError = function (status, element) {
 };
 
 /////////////////////////////////
-///// Validation funtions //////
+//  Funciones de validación    //
 ////////////////////////////////
 
-/////////////////////////////
-//// Year validation
-// Validates the input value for year and returns a boolean
+//// Validación de año ////
+
+// Valida el valor de entrada para el año y devuelve un booleano
 const validateYear = function (element) {
 	const inputValue = +element.value;
 	const currentYear = new Date().getFullYear();
 
-	// checks if the input value is empty
+	// verifica si el valor de entrada está vacío
 	if (inputValue == "") {
 		renderError("empty", element);
 		return false;
 	}
 
-	// checks if the input value is less than 1000
+	// verifica si el valor de entrada es menor que 1
 	if (inputValue < 1) {
 		renderError("invalid", element);
 		return false;
 	}
 
-	// checks if the input value is greater than the current year
+	// verifica si el valor de entrada es mayor que el año actual
 	if (inputValue > currentYear) {
 		renderError("future", element);
 		return false;
 	}
 
-	// If input value is valid, remove error messages and return true
+	// Si el valor de entrada es válido, elimina los mensajes de error y devuelve true
 	renderError("", element);
 	return true;
 };
 
-/////////////////////////////
-//// Month validation
-// Validates the input value for month and returns a boolean
+//// Validación de mes ////
+
+// Valida el valor de entrada para el mes y devuelve un booleano
 const validateMonth = function (element) {
 	const inputValue = +element.value;
 	const day = +inputDay.value;
@@ -94,64 +94,67 @@ const validateMonth = function (element) {
 		0
 	).getDate();
 
-	// Render error message for day input if day is greater than last day of the month
+	// verifica si el valor de entrada está vacío
 	if (inputValue == "") {
 		renderError("empty", element);
 		return false;
 	}
 
+	// Muestra mensaje de error si el valor de entrada es mayor que 12 o menor que 1
+	if (inputValue < 1 || inputValue > 12) {
+		renderError("invalid", element);
+		return false;
+	}
+
+	// Muestra mensaje de error para el día de entrada si el día es mayor que el último día del mes
 	if (day > lastDayOfMonth) {
 		renderError("invalid", inputDay);
 		return false;
 	}
 
-	// Render error message if input value is empty, greater than 12 or less than 1
-	if (inputValue === "" || inputValue < 1 || inputValue > 12) {
-		renderError("invalid", element);
-		return false;
-	}
-
-	// If input value is valid, remove error messages and return true
+	// Si el valor de entrada es válido, elimina los mensajes de error y devuelve true
 	renderError("", element);
 	renderError("", inputDay);
 	return true;
 };
 
-/////////////////////////////
-//// Day validation
-// Validates the input value for day and returns a boolean
+//// Validación de día ////
+
+// Valida el valor de entrada para el día y devuelve un booleano
 const validateDay = function (element) {
-	// Getting the day input value and the last day of the month based on input year and month
+	// Obtener el valor de entrada del día 
 	const inputValue = +element.value;
+    // Obtener el último día del mes basado en el año y mes de entrada
 	const lastDayOfMonth = new Date(
 		+inputYear.value,
 		+inputMonth.value,
 		0
 	).getDate();
 
-	// Checking if the input value is empty
+	// Verifica si el valor de entrada está vacío
 	if (inputValue == "") {
 		renderError("empty", element);
 		return false;
 	}
 
-	// Checking if the input value is not between 1 and the last day of the month
+	// Verifica si el valor de entrada no está entre 1 y el último día del mes
 	if (inputValue > lastDayOfMonth || inputValue < 1) {
 		renderError("invalid", element);
 		return false;
 	}
 
-	// If input value is valid, then clear any error message and return true
+	// Si el valor de entrada es válido, elimina cualquier mensaje de error y devuelve true
 	renderError("", element);
 	return true;
 };
 
-//////////////////////////////
-///// Events for inputs /////
-/////////////////////////////
-//Adding event listeners to the year, month, and day input fields
-//When the input values change, their respective validation functions are called
-//Also, the extremeError message is cleared
+///////////////////////////
+// Eventos para entradas //
+///////////////////////////
+
+//Agregar event listeners a los campos de entrada de año, mes y día
+//Cuando cambian los valores de entrada, se llaman sus respectivas funciones de validación
+//Además, se borra el mensaje de error extremo
 inputYear.addEventListener("input", () => {
 	validateYear(inputYear);
 	extreamError.textContent = null;
@@ -167,49 +170,51 @@ inputDay.addEventListener("input", () => {
 	extreamError.textContent = null;
 });
 
-//////////////////////////////
-////// Form submission //////
-/////////////////////////////
+////////////////////
+// Envío de Datos //
+////////////////////
+
 btn.addEventListener("click", function () {
-	// Check if the input values are valid by calling the respective validation functions
-	// If any validation function returns false, exit the function and do not proceed further
+	// Verifica si los valores de entrada son válidos llamando a las respectivas funciones de validación
 	validateDay(inputDay);
 	validateDay(inputMonth);
 	validateDay(inputYear);
+    
+	// Si alguna función de validación devuelve false, salir de la función y no continuar
 	const isValid =
 		validateDay(inputDay) &&
 		validateMonth(inputMonth) &&
 		validateYear(inputYear);
 	if (!isValid) return;
 
-	// If input values are valid, create a new Date object based on the input values
+	// Si los valores de entrada son válidos, crea un nuevo objeto de fecha basado en los valores de entrada
 	const birth = new Date(
 		`${inputYear.value}-${inputMonth.value}-${inputDay.value}`
 	);
-	// Get today's date
+	// Obtener la fecha de hoy
 	const today = new Date();
 
-	// Check if the birth date is in the future, if so, show an error message and exit the function
+	// Verifica si la fecha de nacimiento está en el futuro, si es así, muestra un mensaje de error y salir de la función
 	if (birth > today) {
 		extreamError.textContent = "Date of birth can't be in the future";
 		return;
 	}
 
-	// Calculate the difference in years, months, and days between today's date and the birthdate entered by the user
+	// Calcula la diferencia en años, meses y días entre la fecha de hoy y la fecha de nacimiento ingresada por el usuario
 	let years = today.getFullYear() - birth.getFullYear();
 	let months = today.getMonth() - birth.getMonth();
 	let days = today.getDate() - birth.getDate();
 
-	// If the difference in months is negative, it means the birthday has not yet occurred this year.
-	// In this case, we subtract one from the year and add 12 to the number of months difference.
+	// Si la diferencia en meses es negativa, significa que el cumpleaños aún no ha ocurrido este año.
+	// En este caso, restamos uno del año y sumamos 12 al número de meses de diferencia.
 	if (months < 0 || (months === 0 && days < 0)) {
 		years--;
 		months += 12;
 	}
 
-	// If the difference in days is negative, it means that the birthday occurred in the previous month.
-	// We need to add the number of days in the current month to the number of days remaining in the birth month,
-	// and subtract one month from the total number of months difference.
+	// Si la diferencia en días es negativa, significa que el cumpleaños ocurrió en el mes anterior.
+	// Necesitamos sumar el número de días en el mes actual al número de días restantes en el mes de nacimiento,
+	// y restar un mes del número total de meses de diferencia.
 	if (days < 0) {
 		const lastDayOfMonth = new Date(
 			today.getFullYear(),
@@ -224,7 +229,7 @@ btn.addEventListener("click", function () {
 		}
 	}
 
-	// Scaling down and hiding the output elements
+	// Reducción de escala y ocultación de los elementos de salida
 	[
 		outputYear.parentElement,
 		outputMonth.parentElement,
@@ -234,8 +239,8 @@ btn.addEventListener("click", function () {
 		output.style.opacity = "0";
 	});
 
-	// Updating the output elements with the calculated years, months and days,
-	// then scaling up and showing them after a delay of 300ms
+	// Actualiza los elementos de salida con los años, meses y días calculados,
+	// luego los escala y los muestra después de un retraso de 300 ms
 	setTimeout(() => {
 		outputYear.textContent = years;
 		outputMonth.textContent = months;
@@ -251,27 +256,7 @@ btn.addEventListener("click", function () {
 		});
 	}, 300);
 
-	// let c = document.querySelector(".counter");
-	// function count() {
-	// 	var counter = { var: 0 };
-	// 	TweenMax.to(counter, 3, {
-	// 		var: 100,
-	// 		onUpdate: function () {
-	// 			var number = Math.ceil(counter.var);
-	// 			c.textContent = number;
-	// 			if (number === counter.var) {
-	// 				count.kill();
-	// 			}
-	// 		},
-	// 		onComplete: function () {
-	// 			count();
-	// 		},
-	// 		ease: Circ.easeOut,
-	// 	});
-	// }
-	// count();
-
-	// Clearing the input fields after calculating the age
+	// Borrar los campos de entrada después de calcular la edad
 	// inputDay.value = "";
 	// inputMonth.value = "";
 	// inputYear.value = "";
